@@ -1,1 +1,5 @@
-print("hello world")
+import pygame
+from pygame.locals import *
+
+pygame.init()
+
