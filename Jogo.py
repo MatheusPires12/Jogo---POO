@@ -28,13 +28,40 @@ class Jogo:
             if evento.type == QUIT:
                 pygame.quit()
                 exit()
-    
-    def desenhar_elementos(self):
-        self.cobra.aumenta_cobra(self.tela)
+            if evento.type == KEYDOWN:
+                self.lidar_com_tecla_pressionada(evento)
+
+    def lidar_com_tecla_pressionada(self, evento):
+        if evento.key == K_a:
+            self.cobra.x_controle = -self.cobra.velocidade
+            self.cobra.y_controle = 0
+        if evento.key == K_d:
+            self.cobra.x_controle = self.cobra.velocidade
+            self.cobra.y_controle = 0
+        if evento.key == K_w:
+            self.cobra.x_controle = 0
+            self.cobra.y_controle = -self.cobra.velocidade
+        if evento.key == K_s:
+            self.cobra.x_controle = 0
+            self.cobra.y_controle = self.cobra.velocidade
     
     def atualizar_jogo(self):
         self.cobra.mover()
         self.cobra.atualizar()
+        self.checar_colisoes()
+
+    def checar_colisoes(self):
+        if self.cobra.x_cobra > self.largura:
+            self.cobra.x_cobra = 0
+        if self.cobra.x_cobra < 0:
+            self.cobra.x_cobra = self.largura
+        if self.cobra.y_cobra > self.altura:
+            self.cobra.y_cobra = 0
+        if self.cobra.y_cobra < 0:
+            self.cobra.y_cobra = self.altura
+    
+    def desenhar_elementos(self):
+        self.cobra.aumenta_cobra(self.tela)
 
 jogo = Jogo()
 
