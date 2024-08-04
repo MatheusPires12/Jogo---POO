@@ -24,3 +24,7 @@ class Cobra:
     def aumenta_cobra(self, tela):
         for XeY in self.lista_cobra:
             pygame.draw.rect(tela, (255, 255, 0), (XeY[0], XeY[1], 20, 20))
+    
+    def checar_colisao(self, comida):
+        cobra_rect = pygame.Rect(self.x_cobra, self.y_cobra, 20, 20)
+        return cobra_rect.colliderect(comida.get_rect())

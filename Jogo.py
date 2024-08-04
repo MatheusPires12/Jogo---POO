@@ -4,6 +4,7 @@ from sys import exit
 from cobra import Cobra
 from comida import Comida
 
+
 class Jogo:
     def __init__(self):
         pygame.init()
@@ -46,13 +47,16 @@ class Jogo:
         if evento.key == K_s:
             self.cobra.x_controle = 0
             self.cobra.y_controle = self.cobra.velocidade
-    
+
     def atualizar_jogo(self):
         self.cobra.mover()
+        if self.cobra.checar_colisao(self.comida):
+            self.comida.reposicionar(self.largura, self.altura)
+            self.cobra.comprimento_inicial += 1
         self.cobra.atualizar()
-        self.checar_colisoes()
+        self.checar_posicoes()
 
-    def checar_colisoes(self):
+    def checar_posicoes(self):
         if self.cobra.x_cobra > self.largura:
             self.cobra.x_cobra = 0
         if self.cobra.x_cobra < 0:
@@ -61,14 +65,12 @@ class Jogo:
             self.cobra.y_cobra = 0
         if self.cobra.y_cobra < 0:
             self.cobra.y_cobra = self.altura
-    
+
     def desenhar_elementos(self):
         self.cobra.aumenta_cobra(self.tela)
         self.comida.desenhar(self.tela)
 
+
 jogo = Jogo()
 
 jogo.executar()
-
-        
-
