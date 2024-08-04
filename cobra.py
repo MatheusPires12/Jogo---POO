@@ -9,7 +9,7 @@ class Cobra:
         self.x_controle = self.velocidade
         self.y_controle = 0
         self.lista_cobra = []
-        self.comprimento_inicial = 5
+        self.comprimento_inicial = 15
 
     def mover(self):
         self.x_cobra += self.x_controle

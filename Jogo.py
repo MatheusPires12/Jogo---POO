@@ -13,6 +13,7 @@ class Jogo:
         self.tela = pygame.display.set_mode((self.largura, self.altura))
         pygame.display.set_caption("Jogo da Cobrinha")
         self.relogio = pygame.time.Clock()
+        self.morreu = False
         self.fonte = pygame.font.SysFont('arial', 40, True, True)
         self.cobra = Cobra(self.largura, self.altura)
         self.comida = Comida(self.largura, self.altura)
@@ -36,17 +37,31 @@ class Jogo:
 
     def lidar_com_tecla_pressionada(self, evento):
         if evento.key == K_a:
-            self.cobra.x_controle = -self.cobra.velocidade
-            self.cobra.y_controle = 0
+            if self.cobra.x_controle == self.cobra.velocidade:
+                pass
+            else:
+                self.cobra.x_controle = -self.cobra.velocidade
+                self.cobra.y_controle = 0
         if evento.key == K_d:
-            self.cobra.x_controle = self.cobra.velocidade
-            self.cobra.y_controle = 0
+            if self.cobra.x_controle == -self.cobra.velocidade:
+                pass
+            else:
+                self.cobra.x_controle = self.cobra.velocidade
+                self.cobra.y_controle = 0
         if evento.key == K_w:
-            self.cobra.x_controle = 0
-            self.cobra.y_controle = -self.cobra.velocidade
+            if self.cobra.y_controle == self.cobra.velocidade:
+                pass
+            else:
+                self.cobra.x_controle = 0
+                self.cobra.y_controle = -self.cobra.velocidade
         if evento.key == K_s:
-            self.cobra.x_controle = 0
-            self.cobra.y_controle = self.cobra.velocidade
+            if self.cobra.y_controle == -self.cobra.velocidade:
+                pass
+            else:
+                self.cobra.x_controle = 0
+                self.cobra.y_controle = self.cobra.velocidade
+        if evento.key == K_SPACE and self.morreu:
+            self.reiniciar_jogo()
 
     def atualizar_jogo(self):
         self.cobra.mover()
@@ -57,6 +72,8 @@ class Jogo:
         self.checar_posicoes()
 
     def checar_posicoes(self):
+        if self.cobra.lista_cobra.count([self.cobra.x_cobra, self.cobra.y_cobra]) > 1:
+            self.morreu = True
         if self.cobra.x_cobra > self.largura:
             self.cobra.x_cobra = 0
         if self.cobra.x_cobra < 0:
@@ -69,6 +86,24 @@ class Jogo:
     def desenhar_elementos(self):
         self.cobra.aumenta_cobra(self.tela)
         self.comida.desenhar(self.tela)
+        if self.morreu:
+            self.game_over()
+
+    def game_over(self):
+        while self.morreu:
+            for evento in pygame.event.get():
+                if evento.type == QUIT:
+                    pygame.quit()
+                    exit()
+                if evento.type == KEYDOWN:
+                    if evento.key == K_SPACE:
+                        self.reiniciar_jogo()
+
+    def reiniciar_jogo(self):
+        self.pontos = 0
+        self.cobra.reiniciar(self.largura, self.altura)
+        self.comida.reposicionar(self.largura, self.altura)
+        self.morreu = False
 
 
 jogo = Jogo()
