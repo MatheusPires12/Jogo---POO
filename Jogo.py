@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 from sys import exit
 from cobra import Cobra
+from comida import Comida
 
 class Jogo:
     def __init__(self):
@@ -13,6 +14,7 @@ class Jogo:
         self.relogio = pygame.time.Clock()
         self.fonte = pygame.font.SysFont('arial', 40, True, True)
         self.cobra = Cobra(self.largura, self.altura)
+        self.comida = Comida(self.largura, self.altura)
 
     def executar(self):
         while True:
@@ -62,6 +64,7 @@ class Jogo:
     
     def desenhar_elementos(self):
         self.cobra.aumenta_cobra(self.tela)
+        self.comida.desenhar(self.tela)
 
 jogo = Jogo()
 
