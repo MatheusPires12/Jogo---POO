@@ -3,6 +3,8 @@ from pygame.locals import *
 from sys import exit
 from cobra import Cobra
 from comida import Comida
+from gerenciador_de_som import GerenciadorDeSom
+
 
 
 class Jogo:
@@ -18,6 +20,7 @@ class Jogo:
         self.fonte = pygame.font.SysFont('arial', 40, True, True)
         self.cobra = Cobra(self.largura, self.altura)
         self.comida = Comida(self.largura, self.altura)
+        self.sons = GerenciadorDeSom()
 
     def executar(self):
         while True:
@@ -70,6 +73,7 @@ class Jogo:
             self.comida.reposicionar(self.largura, self.altura)
             self.cobra.comprimento_inicial += 1
             self.pontos += 1
+            self.sons.tocar_som_colisao()
         self.cobra.atualizar()
         self.checar_posicoes()
 
@@ -103,6 +107,8 @@ class Jogo:
         ret_texto.center = (self.largura // 2, self.altura // 2)
         self.tela.blit(texto_formatado, ret_texto)
         pygame.display.update()
+        self.sons.parar_musica()
+        self.sons.tocar_game_over()
         while self.morreu:
             for evento in pygame.event.get():
                 if evento.type == QUIT:
@@ -117,6 +123,8 @@ class Jogo:
         self.cobra.reiniciar(self.largura, self.altura)
         self.comida.reposicionar(self.largura, self.altura)
         self.morreu = False
+        self.sons.parar_game_over()
+        self.sons.tocar_musica()
 
 
 jogo = Jogo()
