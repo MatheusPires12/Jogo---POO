@@ -13,6 +13,7 @@ class Jogo:
         self.tela = pygame.display.set_mode((self.largura, self.altura))
         pygame.display.set_caption("Jogo da Cobrinha")
         self.relogio = pygame.time.Clock()
+        self.pontos = 0
         self.morreu = False
         self.fonte = pygame.font.SysFont('arial', 40, True, True)
         self.cobra = Cobra(self.largura, self.altura)
@@ -68,6 +69,7 @@ class Jogo:
         if self.cobra.checar_colisao(self.comida):
             self.comida.reposicionar(self.largura, self.altura)
             self.cobra.comprimento_inicial += 1
+            self.pontos += 1
         self.cobra.atualizar()
         self.checar_posicoes()
 
@@ -84,12 +86,23 @@ class Jogo:
             self.cobra.y_cobra = self.altura
 
     def desenhar_elementos(self):
+        mensagem = f'Pontuação: {self.pontos}'
+        self.fonte = pygame.font.Font(None, 25)
+        texto_formatado = self.fonte.render(mensagem, True, (0, 0, 0))
+        self.tela.blit(texto_formatado, (470, 10))
         self.cobra.aumenta_cobra(self.tela)
         self.comida.desenhar(self.tela)
         if self.morreu:
             self.game_over()
 
     def game_over(self):
+        font2 = pygame.font.SysFont("arial", 20, True, True)
+        mensagem = "Game Over! Pressione a tecla espaço para reiniciar."
+        texto_formatado = font2.render(mensagem, True, (0, 0, 0))
+        ret_texto = texto_formatado.get_rect()
+        ret_texto.center = (self.largura // 2, self.altura // 2)
+        self.tela.blit(texto_formatado, ret_texto)
+        pygame.display.update()
         while self.morreu:
             for evento in pygame.event.get():
                 if evento.type == QUIT:

@@ -9,7 +9,7 @@ class Cobra:
         self.x_controle = self.velocidade
         self.y_controle = 0
         self.lista_cobra = []
-        self.comprimento_inicial = 15
+        self.comprimento_inicial = 5
 
     def mover(self):
         self.x_cobra += self.x_controle
@@ -28,3 +28,6 @@ class Cobra:
     def checar_colisao(self, comida):
         cobra_rect = pygame.Rect(self.x_cobra, self.y_cobra, 20, 20)
         return cobra_rect.colliderect(comida.get_rect())
+
+    def reiniciar(self, largura, altura):
+        self.__init__(largura, altura)
