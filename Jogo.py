@@ -23,7 +23,7 @@ class Jogo:
     def executar(self):
         while True:
             self.relogio.tick(10)
-            self.tela.fill((255, 255, 255))
+            self.tela.fill((0, 255, 80))
             self.lidar_com_eventos()
             self.atualizar_jogo()
             self.desenhar_elementos()
