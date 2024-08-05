@@ -3,6 +3,7 @@ from pygame.locals import *
 from sys import exit
 from cobra import Cobra
 from comida import Comida
+from gerenciador_de_imagem import GerenciadorDeImagens
 from gerenciador_de_som import GerenciadorDeSom
 
 class Jogo:
@@ -28,6 +29,7 @@ class Jogo:
             self.lidar_com_eventos()
             self.atualizar_jogo()
             self.desenhar_elementos()
+            self.tela.screen.blit(self.GerenciadorDeImagens, (0, 0))
             pygame.display.update()
 
     def lidar_com_eventos(self):
@@ -39,28 +41,20 @@ class Jogo:
                 self.lidar_com_tecla_pressionada(evento)
 
     def lidar_com_tecla_pressionada(self, evento):
-        if evento.key == K_a:
-            if self.cobra.x_controle == self.cobra.velocidade:
-                pass
-            else:
+        if evento.key == K_LEFT:
+            if self.cobra.x_controle != self.cobra.velocidade:
                 self.cobra.x_controle = -self.cobra.velocidade
                 self.cobra.y_controle = 0
-        if evento.key == K_d:
-            if self.cobra.x_controle == -self.cobra.velocidade:
-                pass
-            else:
+        if evento.key == K_RIGHT:
+            if self.cobra.x_controle != -self.cobra.velocidade:
                 self.cobra.x_controle = self.cobra.velocidade
                 self.cobra.y_controle = 0
-        if evento.key == K_w:
-            if self.cobra.y_controle == self.cobra.velocidade:
-                pass
-            else:
+        if evento.key == K_UP:
+            if self.cobra.y_controle != self.cobra.velocidade:
                 self.cobra.x_controle = 0
                 self.cobra.y_controle = -self.cobra.velocidade
-        if evento.key == K_s:
-            if self.cobra.y_controle == -self.cobra.velocidade:
-                pass
-            else:
+        if evento.key == K_DOWN:
+            if self.cobra.y_controle != -self.cobra.velocidade:
                 self.cobra.x_controle = 0
                 self.cobra.y_controle = self.cobra.velocidade
         if evento.key == K_SPACE and self.morreu:
