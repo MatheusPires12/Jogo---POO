@@ -5,8 +5,6 @@ from cobra import Cobra
 from comida import Comida
 from gerenciador_de_som import GerenciadorDeSom
 
-
-
 class Jogo:
     def __init__(self):
         pygame.init()
@@ -125,7 +123,6 @@ class Jogo:
         self.morreu = False
         self.sons.parar_game_over()
         self.sons.tocar_musica()
-
 
 jogo = Jogo()
 
