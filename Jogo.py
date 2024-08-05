@@ -19,6 +19,7 @@ class Jogo:
         self.cobra = Cobra(self.largura, self.altura)
         self.comida = Comida(self.largura, self.altura)
         self.sons = GerenciadorDeSom()
+        self.velocidade_incremento = 1
 
     def executar(self):
         while True:
@@ -69,9 +70,11 @@ class Jogo:
         self.cobra.mover()
         if self.cobra.checar_colisao(self.comida):
             self.comida.reposicionar(self.largura, self.altura)
-            self.cobra.comprimento_inicial += 1
+            self.cobra.comprimento_inicial += 2
             self.pontos += 1
             self.sons.tocar_som_colisao()
+            if self.pontos % 10 == 0:
+                self.cobra.aumentar_velocidade(self.velocidade_incremento)
         self.cobra.atualizar()
         self.checar_posicoes()
 

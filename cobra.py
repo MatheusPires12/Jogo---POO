@@ -9,7 +9,7 @@ class Cobra:
         self.x_controle = self.velocidade
         self.y_controle = 0
         self.lista_cobra = []
-        self.comprimento_inicial = 15
+        self.comprimento_inicial = 5
 
     def mover(self):
         self.x_cobra += self.x_controle
@@ -31,3 +31,6 @@ class Cobra:
 
     def reiniciar(self, largura, altura):
         self.__init__(largura, altura)
+
+    def aumentar_velocidade(self, incremento):
+        self.velocidade += incremento
