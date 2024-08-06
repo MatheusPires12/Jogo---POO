@@ -20,6 +20,7 @@ class Jogo:
         self.cobra = Cobra(self.largura, self.altura)
         self.comida = Comida(self.largura, self.altura)
         self.sons = GerenciadorDeSom()
+        self.gerenciador_imagens = GerenciadorDeImagens()
         self.velocidade_incremento = 1
 
     def executar(self):
@@ -29,7 +30,6 @@ class Jogo:
             self.lidar_com_eventos()
             self.atualizar_jogo()
             self.desenhar_elementos()
-            self.tela.screen.blit(self.GerenciadorDeImagens, (0, 0))
             pygame.display.update()
 
     def lidar_com_eventos(self):
@@ -85,6 +85,7 @@ class Jogo:
             self.cobra.y_cobra = self.altura
 
     def desenhar_elementos(self):
+        self.gerenciador_imagens.desenhar_fundo(self.tela)
         mensagem = f'Pontuação: {self.pontos}'
         self.fonte = pygame.font.Font(None, 25)
         texto_formatado = self.fonte.render(mensagem, True, (0, 0, 0))

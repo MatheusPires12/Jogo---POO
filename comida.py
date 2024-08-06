@@ -1,5 +1,6 @@
 import pygame
 from random import randint
+from gerenciador_de_imagem import GerenciadorDeImagens
 
 class Comida:
     def __init__(self, largura, altura):
@@ -14,4 +15,4 @@ class Comida:
         return pygame.Rect(self.x_comida, self.y_comida, 20, 20)
 
     def desenhar(self, tela):
-        pygame.draw.rect(tela, (255, 0, 0), (self.x_comida, self.y_comida, 20, 20))
+        tela.blit(GerenciadorDeImagens.comida, (self.x_comida, self.y_comida))
