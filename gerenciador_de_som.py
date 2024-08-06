@@ -3,7 +3,7 @@ import os
 
 class GerenciadorDeSom:
     def __init__(self):
-        pygame.mixer.music.set_volume(0.01)
+        pygame.mixer.music.set_volume(0.08)
         musica_fundo = os.path.join("Musicas", "Game_Music.mp3")
         pygame.mixer.music.load(musica_fundo)
         pygame.mixer.music.play(-1)

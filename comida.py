@@ -9,8 +9,17 @@ class Comida:
 
     def reposicionar(self, largura, altura, lista_cobra):
         while True:
-            nova_posicao = (randint(20, largura - 40), randint(20, altura - 40)) 
-            if nova_posicao not in lista_cobra:
+            nova_posicao = (randint(20, largura - 40), randint(20, altura - 40))
+            nova_comida_rect = pygame.Rect(nova_posicao[0], nova_posicao[1], 35, 35)
+            
+            colisao = False
+            for segmento in lista_cobra:
+                segmento_rect = pygame.Rect(segmento[0], segmento[1], 35, 35)
+                if nova_comida_rect.colliderect(segmento_rect):
+                    colisao = True
+                    break
+            
+            if not colisao:
                 self.x_comida, self.y_comida = nova_posicao
                 return
 
