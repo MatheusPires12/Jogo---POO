@@ -7,7 +7,7 @@ class GerenciadorDeSom:
         musica_fundo = os.path.join("Musicas", "Game_Music.mp3")
         pygame.mixer.music.load(musica_fundo)
         pygame.mixer.music.play(-1)
-        som_colisao = os.path.join("Musicas", "bite-potato-chips-83946.wav")
+        som_colisao = os.path.join("Musicas", "croc.wav")
         self.som_colisao = pygame.mixer.Sound(som_colisao)
         self.som_colisao.set_volume(1)
         som_game_over = os.path.join("Musicas", "Game_Over.wav")

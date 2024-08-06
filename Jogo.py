@@ -9,8 +9,8 @@ from gerenciador_de_som import GerenciadorDeSom
 class Jogo:
     def __init__(self):
         pygame.init()
-        self.largura = 600
-        self.altura = 400
+        self.largura = 640
+        self.altura = 480
         self.tela = pygame.display.set_mode((self.largura, self.altura))
         pygame.display.set_caption("Jogo da Cobrinha")
         self.relogio = pygame.time.Clock()
@@ -63,7 +63,7 @@ class Jogo:
     def atualizar_jogo(self):
         self.cobra.mover()
         if self.cobra.checar_colisao(self.comida):
-            self.comida.reposicionar(self.largura, self.altura, self.cobra.lista_cobra)  # Correto
+            self.comida.reposicionar(self.largura, self.altura, self.cobra.lista_cobra) 
             self.cobra.comprimento_inicial += 2
             self.pontos += 1
             self.sons.tocar_som_colisao()
