@@ -18,9 +18,9 @@ class Jogo:
         self.morreu = False
         self.fonte = pygame.font.SysFont('arial', 40, True, True)
         self.cobra = Cobra(self.largura, self.altura)
-        self.comida = Comida(self.largura, self.altura)
-        self.sons = GerenciadorDeSom()
         self.gerenciador_imagens = GerenciadorDeImagens()
+        self.comida = Comida(self.largura, self.altura, self.gerenciador_imagens)
+        self.sons = GerenciadorDeSom()
         self.velocidade_incremento = 1
 
     def executar(self):
