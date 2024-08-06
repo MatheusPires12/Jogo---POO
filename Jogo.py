@@ -86,9 +86,9 @@ class Jogo:
             self.cobra.y_cobra = self.altura
         '''
         limites = [
-            self.cobra.x_cobra > self.largura - 40,
+            self.cobra.x_cobra > self.largura - 50,
             self.cobra.x_cobra < 0,
-            self.cobra.y_cobra > self.altura - 40,
+            self.cobra.y_cobra > self.altura - 50,
             self.cobra.y_cobra < 0
             ]
         if self.cobra.lista_cobra.count([self.cobra.x_cobra, self.cobra.y_cobra]) > 1 or any(limites):
@@ -98,8 +98,8 @@ class Jogo:
         self.gerenciador_imagens.desenhar_fundo(self.tela)
         mensagem = f'Pontuação: {self.pontos}'
         self.fonte = pygame.font.Font(None, 25)
-        texto_formatado = self.fonte.render(mensagem, True, (0, 0, 0))
-        self.tela.blit(texto_formatado, (470, 10))
+        texto_formatado = self.fonte.render(mensagem, True, (0, 255, 50))
+        self.tela.blit(texto_formatado, (510, 2))
         self.cobra.aumenta_cobra(self.tela)
         self.comida.desenhar(self.tela)
         if self.morreu:

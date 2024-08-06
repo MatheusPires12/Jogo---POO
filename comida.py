@@ -9,7 +9,7 @@ class Comida:
 
     def reposicionar(self, largura, altura, lista_cobra):
         while True:
-            nova_posicao = (randint(0, largura - 20), randint(0, altura - 20)) 
+            nova_posicao = (randint(20, largura - 40), randint(20, altura - 40)) 
             if nova_posicao not in lista_cobra:
                 self.x_comida, self.y_comida = nova_posicao
                 return
