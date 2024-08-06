@@ -73,6 +73,7 @@ class Jogo:
         self.checar_posicoes()
 
     def checar_posicoes(self):
+        '''
         if self.cobra.lista_cobra.count([self.cobra.x_cobra, self.cobra.y_cobra]) > 1:
             self.morreu = True
         if self.cobra.x_cobra > self.largura:
@@ -83,6 +84,15 @@ class Jogo:
             self.cobra.y_cobra = 0
         if self.cobra.y_cobra < 0:
             self.cobra.y_cobra = self.altura
+        '''
+        limites = [
+            self.cobra.x_cobra > self.largura - 40,
+            self.cobra.x_cobra < 0,
+            self.cobra.y_cobra > self.altura - 40,
+            self.cobra.y_cobra < 0
+            ]
+        if self.cobra.lista_cobra.count([self.cobra.x_cobra, self.cobra.y_cobra]) > 1 or any(limites):
+            self.morreu = True
 
     def desenhar_elementos(self):
         self.gerenciador_imagens.desenhar_fundo(self.tela)
