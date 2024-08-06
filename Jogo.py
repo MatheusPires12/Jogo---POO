@@ -17,8 +17,8 @@ class Jogo:
         self.pontos = 0
         self.morreu = False
         self.fonte = pygame.font.SysFont('arial', 40, True, True)
-        self.cobra = Cobra(self.largura, self.altura)
         self.gerenciador_imagens = GerenciadorDeImagens()
+        self.cobra = Cobra(self.largura, self.altura, self.gerenciador_imagens.cabeca, self.gerenciador_imagens.corpo)
         self.comida = Comida(self.largura, self.altura, self.gerenciador_imagens)
         self.sons = GerenciadorDeSom()
         self.velocidade_incremento = 1
@@ -116,8 +116,8 @@ class Jogo:
 
     def reiniciar_jogo(self):
         self.pontos = 0
-        self.cobra.reiniciar(self.largura, self.altura)
-        self.comida.reposicionar(self.largura, self.altura)
+        self.cobra.reiniciar(self.largura, self.altura, self.gerenciador_imagens.cabeca, self.gerenciador_imagens.corpo)
+        self.comida.reposicionar(self.largura, self.altura, self.cobra.lista_cobra)
         self.morreu = False
         self.sons.parar_game_over()
         self.sons.tocar_musica()

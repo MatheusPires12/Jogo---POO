@@ -2,7 +2,7 @@ import pygame
 
 class Cobra:
 
-    def __init__(self, largura, altura):
+    def __init__(self, largura, altura, imagem_cabeca, imagem_corpo):
         self.x_cobra = int(largura / 2)
         self.y_cobra = int(altura / 2)
         self.velocidade = 10
@@ -10,6 +10,8 @@ class Cobra:
         self.y_controle = 0
         self.lista_cobra = []
         self.comprimento_inicial = 5
+        self.imagem_cabeca = imagem_cabeca
+        self.imagem_corpo = imagem_corpo
 
     def mover(self):
         self.x_cobra += self.x_controle
@@ -22,15 +24,18 @@ class Cobra:
             del self.lista_cobra[0]
     
     def aumenta_cobra(self, tela):
-        for XeY in self.lista_cobra:
-            pygame.draw.rect(tela, (255, 255, 0), (XeY[0], XeY[1], 20, 20))
+        for index, XeY in enumerate(self.lista_cobra):
+            if index == len(self.lista_cobra) - 1:
+                tela.blit(self.imagem_cabeca, (XeY[0], XeY[1]))
+            else:
+                tela.blit(self.imagem_corpo, (XeY[0], XeY[1]))
     
     def checar_colisao(self, comida):
         cobra_rect = pygame.Rect(self.x_cobra, self.y_cobra, 20, 20)
         return cobra_rect.colliderect(comida.get_rect())
 
-    def reiniciar(self, largura, altura):
-        self.__init__(largura, altura)
+    def reiniciar(self, largura, altura, imagem_cabeca, imagem_corpo):
+        self.__init__(largura, altura, self.imagem_cabeca, self.imagem_corpo)
 
     def aumentar_velocidade(self, incremento):
         self.velocidade += incremento
