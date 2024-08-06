@@ -26,7 +26,6 @@ class Jogo:
     def executar(self):
         while True:
             self.relogio.tick(10)
-            self.tela.fill((0, 255, 80))
             self.lidar_com_eventos()
             self.atualizar_jogo()
             self.desenhar_elementos()
@@ -108,7 +107,7 @@ class Jogo:
     def game_over(self):
         font2 = pygame.font.SysFont("arial", 20, True, True)
         mensagem = "Game Over! Pressione a tecla espaço para reiniciar."
-        texto_formatado = font2.render(mensagem, True, (0, 0, 0))
+        texto_formatado = font2.render(mensagem, True, (255, 255, 255))
         ret_texto = texto_formatado.get_rect()
         ret_texto.center = (self.largura // 2, self.altura // 2)
         self.tela.blit(texto_formatado, ret_texto)
@@ -132,6 +131,4 @@ class Jogo:
         self.sons.parar_game_over()
         self.sons.tocar_musica()
 
-jogo = Jogo()
 
-jogo.executar()
