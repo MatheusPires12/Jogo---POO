@@ -63,7 +63,7 @@ class Jogo:
     def atualizar_jogo(self):
         self.cobra.mover()
         if self.cobra.checar_colisao(self.comida):
-            self.comida.reposicionar(self.largura, self.altura)
+            self.comida.reposicionar(self.largura, self.altura, self.cobra.lista_cobra)  # Correto
             self.cobra.comprimento_inicial += 2
             self.pontos += 1
             self.sons.tocar_som_colisao()
