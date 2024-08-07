@@ -11,13 +11,5 @@ class GerenciadorDeImagens:
 
     def desenhar_fundo(self, tela):
         tela.blit(self.fundo, (0, 0))
-
-'''
-    def desenhar_comida(self, tela):
-        tela.blit(self.comida, (0, 0))
-        self.cabeca = pygame.image.load("Jogo---POO/Imagens/Cabeça.png")
-        self.corpo = pygame.image.load("Jogo---POO/Imagens/corpo.png")
-        self.comida = pygame.image.load("Jogo---POO/Imagens/Comida.png")
-        '''
     
 
