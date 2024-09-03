@@ -3,11 +3,11 @@ from pygame.locals import *
 from sys import exit
 from cobra import Cobra
 from comida import Comida
-from gerenciador_de_imagem import GerenciadorDeImagens
+from gerenciador_de_imagem import NivelFacil, NivelMedio, NivelDificil
 from gerenciador_de_som import GerenciadorDeSom
 
 class Jogo:
-    def __init__(self):
+    def __init__(self, nivel):
         pygame.init()
         self.largura = 640
         self.altura = 480
@@ -17,7 +17,8 @@ class Jogo:
         self.pontos = 0
         self.morreu = False
         self.fonte = pygame.font.SysFont('arial', 40, True, True)
-        self.gerenciador_imagens = GerenciadorDeImagens()
+
+        self.gerenciador_imagens = nivel
         self.cobra = Cobra(self.largura, self.altura, self.gerenciador_imagens.cabeca, self.gerenciador_imagens.corpo, self.gerenciador_imagens.rabo)
         self.comida = Comida(self.largura, self.altura, self.gerenciador_imagens)
         self.sons = GerenciadorDeSom()
@@ -72,18 +73,6 @@ class Jogo:
         self.checar_posicoes()
 
     def checar_posicoes(self):
-        '''
-        if self.cobra.lista_cobra.count([self.cobra.x_cobra, self.cobra.y_cobra]) > 1:
-            self.morreu = True
-        if self.cobra.x_cobra > self.largura:
-            self.cobra.x_cobra = 0
-        if self.cobra.x_cobra < 0:
-            self.cobra.x_cobra = self.largura
-        if self.cobra.y_cobra > self.altura:
-            self.cobra.y_cobra = 0
-        if self.cobra.y_cobra < 0:
-            self.cobra.y_cobra = self.altura
-        '''
         limites = [
             self.cobra.x_cobra > self.largura - 50,
             self.cobra.x_cobra < 20,
@@ -132,3 +121,38 @@ class Jogo:
         self.sons.tocar_musica()
 
 
+def mostrar_tela_selecao_nivel(tela):
+    fonte = pygame.font.SysFont('arial', 40, True, True)
+    tela.fill((0, 0, 0))  # Preenche a tela com preto
+    mensagem = "Escolha o nível: [F] Fácil | [M] Médio | [D] Difícil"
+    texto_formatado = fonte.render(mensagem, True, (255, 255, 255))
+    ret_texto = texto_formatado.get_rect(center=(320, 240))
+    tela.blit(texto_formatado, ret_texto)
+    pygame.display.update()
+
+    while True:
+        for evento in pygame.event.get():
+            if evento.type == QUIT:
+                pygame.quit()
+                exit()
+            if evento.type == KEYDOWN:
+                if evento.key == K_f:
+                    return NivelFacil()
+                elif evento.key == K_m:
+                    return NivelMedio()
+                elif evento.key == K_d:
+                    return NivelDificil()
+
+
+if __name__ == "__main__":
+    pygame.init()
+    largura = 640
+    altura = 480
+    tela = pygame.display.set_mode((largura, altura))
+
+    # Exibe a tela de seleção de nível
+    nivel_selecionado = mostrar_tela_selecao_nivel(tela)
+
+    # Inicia o jogo com o nível selecionado
+    jogo = Jogo(nivel_selecionado)
+    jogo.executar()
