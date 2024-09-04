@@ -3,7 +3,7 @@ from pygame.locals import *
 from sys import exit
 from cobra import Cobra
 from comida import Comida
-from gerenciador_de_imagem import NivelFacil, NivelMedio, NivelDificil
+from gerenciador_de_imagem import NivelFacil, NivelMedio, NivelDificil, GerenciadorDeImagens
 from gerenciador_de_som import GerenciadorDeSom
 
 class Jogo:
@@ -90,6 +90,11 @@ class Jogo:
         self.tela.blit(texto_formatado, (510, 1))
         self.cobra.aumenta_cobra(self.tela)
         self.comida.desenhar(self.tela)
+
+        # Desenha os obstáculos, se existirem no nível
+        if isinstance(self.gerenciador_imagens, NivelMedio) or isinstance(self.gerenciador_imagens, NivelDificil):
+            self.gerenciador_imagens.desenhar_obstaculos(self.tela)
+            
         if self.morreu:
             self.game_over()
 
@@ -105,11 +110,18 @@ class Jogo:
                 if evento.type == QUIT:
                     pygame.quit()
                     exit()
-                if evento.type == KEYDOWN:
-                    if evento.key == K_SPACE:
-                        self.reiniciar_jogo()
-
+                if evento.type == MOUSEBUTTONDOWN:
+                    x, y = pygame.mouse.get_pos()
+                    # Verifica se o clique foi na imagem de fácil
+                    if 58 <= x <= 58 + gerenciador_imagens.reiniciar.get_width() and 350 <= y <= 350 + gerenciador_imagens.reiniciar.get_height():
+                        return self.reiniciar_jogo()
+                    # Verifica se o clique foi na imagem de médio
+                    elif 370 <= x <= 370 + gerenciador_imagens.sair.get_width() and 350 <= y <= 350 + gerenciador_imagens.sair.get_height():
+                        return exit()
+                    
+                    
     def reiniciar_jogo(self):
+        self.nivel_selecionado = mostrar_tela_selecao_nivel(tela)
         self.pontos = 0
         self.cobra.reiniciar(self.largura, self.altura, self.gerenciador_imagens.cabeca, self.gerenciador_imagens.corpo, self.gerenciador_imagens.rabo)
         self.comida.reposicionar(self.largura, self.altura, self.cobra.lista_cobra)
