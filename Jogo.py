@@ -121,13 +121,14 @@ class Jogo:
                     
                     
     def reiniciar_jogo(self):
-        self.nivel_selecionado = mostrar_tela_selecao_nivel(tela)
+        self.gerenciador_imagens = mostrar_tela_selecao_nivel(self.tela) 
         self.pontos = 0
         self.cobra.reiniciar(self.largura, self.altura, self.gerenciador_imagens.cabeca, self.gerenciador_imagens.corpo, self.gerenciador_imagens.rabo)
-        self.comida.reposicionar(self.largura, self.altura, self.cobra.lista_cobra)
+        self.comida = Comida(self.largura, self.altura, self.gerenciador_imagens)  # Recria a comida para o novo nível
         self.morreu = False
         self.sons.parar_game_over()
         self.sons.tocar_musica()
+
 
 
 def mostrar_tela_selecao_nivel(tela):
