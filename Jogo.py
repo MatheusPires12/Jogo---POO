@@ -90,6 +90,11 @@ class Jogo:
         self.tela.blit(texto_formatado, (510, 1))
         self.cobra.aumenta_cobra(self.tela)
         self.comida.desenhar(self.tela)
+
+        # Desenha os obstáculos, se existirem no nível
+        if isinstance(self.gerenciador_imagens, NivelMedio) or isinstance(self.gerenciador_imagens, NivelDificil):
+            self.gerenciador_imagens.desenhar_obstaculos(self.tela)
+            
         if self.morreu:
             self.game_over()
 
@@ -121,14 +126,9 @@ class Jogo:
         self.sons.tocar_musica()
 
 
-def mostrar_tela_selecao_nivel(self, tela):
-    self.gerenciador_imagens.desenhar_inicial(self.tela, )
-    fonte = pygame.font.SysFont('arial', 40, True, True)
-    tela.fill((0, 0, 0))  # Preenche a tela com preto
-    mensagem = "Escolha o nível: [F] Fácil | [M] Médio | [D] Difícil"
-    texto_formatado = fonte.render(mensagem, True, (255, 255, 255))
-    ret_texto = texto_formatado.get_rect(center=(320, 240))
-    tela.blit(texto_formatado, ret_texto)
+def mostrar_tela_selecao_nivel(tela):
+    gerenciador_imagens = NivelFacil()  # Pode ser qualquer um dos níveis, pois o fundo é o mesmo
+    gerenciador_imagens.desenhar_inicial(tela)
     pygame.display.update()
 
     while True:
@@ -136,13 +136,18 @@ def mostrar_tela_selecao_nivel(self, tela):
             if evento.type == QUIT:
                 pygame.quit()
                 exit()
-            if evento.type == KEYDOWN:
-                if evento.key == K_f:
+            if evento.type == MOUSEBUTTONDOWN:
+                x, y = pygame.mouse.get_pos()
+                # Verifica se o clique foi na imagem de fácil
+                if 37 <= x <= 37 + gerenciador_imagens.facil.get_width() and 373 <= y <= 373 + gerenciador_imagens.facil.get_height():
                     return NivelFacil()
-                elif evento.key == K_m:
+                # Verifica se o clique foi na imagem de médio
+                elif 230.72 <= x <= 230.72 + gerenciador_imagens.medio.get_width() and 373 <= y <= 373 + gerenciador_imagens.medio.get_height():
                     return NivelMedio()
-                elif evento.key == K_d:
+                # Verifica se o clique foi na imagem de difícil
+                elif 424.44 <= x <= 424.44 + gerenciador_imagens.dificil.get_width() and 373 <= y <= 373 + gerenciador_imagens.dificil.get_height():
                     return NivelDificil()
+
 
 
 if __name__ == "__main__":

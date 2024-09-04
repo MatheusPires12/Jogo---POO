@@ -16,10 +16,9 @@ class GerenciadorDeImagens:
     def desenhar_inicial(self, tela):
         tela.blit(self.tela_inicial, (0, 0))
         tela.blit(self.facil, (37, 373))
-        tela.blit(self.medio, (230.72, 373))
-        tela.blit(self.dificil, (424.44, 373))
+        tela.blit(self.medio, (231, 373))  # Convertido para inteiro
+        tela.blit(self.dificil, (424, 373))  # Convertido para inteiro
         
-    
     def desenhar_fundo(self, tela):
         tela.blit(self.fundo, (0, 0))
 
@@ -37,11 +36,15 @@ class NivelMedio(GerenciadorDeImagens):
         #self.velocidade = 10  # Exemplo de atributo específico
 
     def criar_rect_obstaculo(self):
-        return pygame.Rect(279, 99.79, 114, 115) and pygame.Rect(279, 289.4, 114, 115)
+        return [
+            pygame.Rect(279, 99.79, 114, 115),
+            pygame.Rect(279, 289.4, 114, 115)
+        ]
 
-    def desenhar_medio(self, tela):
+    def desenhar_obstaculos(self, tela):
         tela.blit(self.obstaculo, (279, 99.79))
         tela.blit(self.obstaculo, (279, 289.4))
+
 
 class NivelDificil(GerenciadorDeImagens):
     def __init__(self):
@@ -50,9 +53,14 @@ class NivelDificil(GerenciadorDeImagens):
         #self.velocidade = 10  # Exemplo de atributo específico
 
     def criar_rect_obstaculo(self):
-        return pygame.Rect(87, 63, 114, 115) and pygame.Rect(454, 63, 114, 115) and pygame.Rect(87, 309, 114, 115) and pygame.Rect(454, 309, 114, 115)
+        return [
+            pygame.Rect(87, 63, 114, 115),
+            pygame.Rect(454, 63, 114, 115),
+            pygame.Rect(87, 309, 114, 115),
+            pygame.Rect(454, 309, 114, 115)
+        ]
 
-    def desenhar_dificil(self, tela):
+    def desenhar_obstaculos(self, tela):
         tela.blit(self.obstaculo, (87, 63))
         tela.blit(self.obstaculo, (454, 63))
         tela.blit(self.obstaculo, (87, 309))
