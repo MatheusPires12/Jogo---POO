@@ -12,16 +12,23 @@ class GerenciadorDeImagens:
         self.facil = pygame.image.load("Imagens/EASY.png")
         self.medio = pygame.image.load("Imagens/MEDIUM.png")
         self.dificil = pygame.image.load("Imagens/HARD.png")
-        
+        self.tela_fim= pygame.image.load("Imagens/Fundo_Game_Over.png")
+        self.sair= pygame.image.load("Imagens/EXIT.png")
+        self.reiniciar= pygame.image.load("Imagens/Restart.png")
+
     def desenhar_inicial(self, tela):
         tela.blit(self.tela_inicial, (0, 0))
         tela.blit(self.facil, (37, 373))
-        tela.blit(self.medio, (231, 373))  # Convertido para inteiro
-        tela.blit(self.dificil, (424, 373))  # Convertido para inteiro
+        tela.blit(self.medio, (231, 373)) 
+        tela.blit(self.dificil, (424, 373))  
         
     def desenhar_fundo(self, tela):
         tela.blit(self.fundo, (0, 0))
-
+    
+    def desenhar_fim(self, tela):
+        tela.blit(self.tela_fim, (0, 0))
+        tela.blit(self.sair, (370, 350))
+        tela.blit(self.reiniciar, (58, 350)) 
 
 class NivelFacil(GerenciadorDeImagens):
     def __init__(self):
@@ -32,7 +39,7 @@ class NivelFacil(GerenciadorDeImagens):
 class NivelMedio(GerenciadorDeImagens):
     def __init__(self):
         super().__init__()
-        self.obstaculo = pygame.image.load("Imagens/OBSTACULO_M.png")
+        self.obstaculo = pygame.image.load("Imagens/OBSTACULO.png")
         #self.velocidade = 10  # Exemplo de atributo específico
 
     def criar_rect_obstaculo(self):
@@ -49,7 +56,7 @@ class NivelMedio(GerenciadorDeImagens):
 class NivelDificil(GerenciadorDeImagens):
     def __init__(self):
         super().__init__()
-        self.obstaculo = pygame.image.load("Imagens/OBSTACULO_M.png")
+        self.obstaculo = pygame.image.load("Imagens/OBSTACULO.png")
         #self.velocidade = 10  # Exemplo de atributo específico
 
     def criar_rect_obstaculo(self):
@@ -65,3 +72,4 @@ class NivelDificil(GerenciadorDeImagens):
         tela.blit(self.obstaculo, (454, 63))
         tela.blit(self.obstaculo, (87, 309))
         tela.blit(self.obstaculo, (454, 309))
+

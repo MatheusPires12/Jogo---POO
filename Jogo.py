@@ -90,22 +90,14 @@ class Jogo:
         self.tela.blit(texto_formatado, (510, 1))
         self.cobra.aumenta_cobra(self.tela)
         self.comida.desenhar(self.tela)
-
-        # Desenha os obstáculos, se existirem no nível
-        if isinstance(self.gerenciador_imagens, NivelMedio) or isinstance(self.gerenciador_imagens, NivelDificil):
-            self.gerenciador_imagens.desenhar_obstaculos(self.tela)
-            
         if self.morreu:
             self.game_over()
 
     def game_over(self):
-        font2 = pygame.font.SysFont("arial", 20, True, True)
-        mensagem = "Game Over! Pressione a tecla espaço para reiniciar."
-        texto_formatado = font2.render(mensagem, True, (255, 255, 255))
-        ret_texto = texto_formatado.get_rect()
-        ret_texto.center = (self.largura // 2, self.altura // 2)
-        self.tela.blit(texto_formatado, ret_texto)
+        gerenciador_imagens = NivelFacil()  # Pode ser qualquer um dos níveis, pois o fundo é o mesmo
+        gerenciador_imagens.desenhar_fim(tela)
         pygame.display.update()
+
         self.sons.parar_musica()
         self.sons.tocar_game_over()
         while self.morreu:
@@ -147,7 +139,6 @@ def mostrar_tela_selecao_nivel(tela):
                 # Verifica se o clique foi na imagem de difícil
                 elif 424.44 <= x <= 424.44 + gerenciador_imagens.dificil.get_width() and 373 <= y <= 373 + gerenciador_imagens.dificil.get_height():
                     return NivelDificil()
-
 
 
 if __name__ == "__main__":
