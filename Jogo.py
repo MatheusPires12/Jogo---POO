@@ -121,7 +121,8 @@ class Jogo:
         self.sons.tocar_musica()
 
 
-def mostrar_tela_selecao_nivel(tela):
+def mostrar_tela_selecao_nivel(self, tela):
+    self.gerenciador_imagens.desenhar_inicial(self.tela, )
     fonte = pygame.font.SysFont('arial', 40, True, True)
     tela.fill((0, 0, 0))  # Preenche a tela com preto
     mensagem = "Escolha o nível: [F] Fácil | [M] Médio | [D] Difícil"
