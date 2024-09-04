@@ -73,14 +73,31 @@ class Jogo:
         self.checar_posicoes()
 
     def checar_posicoes(self):
+        # Verificação de colisão com as bordas da tela
         limites = [
             self.cobra.x_cobra > self.largura - 50,
             self.cobra.x_cobra < 20,
             self.cobra.y_cobra > self.altura - 50,
             self.cobra.y_cobra < 20
-            ]
+        ]
+
+        # Verificação de colisão com o próprio corpo
         if self.cobra.lista_cobra.count([self.cobra.x_cobra, self.cobra.y_cobra]) > 1 or any(limites):
             self.morreu = True
+
+        # Verificação de colisão com obstáculos
+        if isinstance(self.gerenciador_imagens, (NivelMedio, NivelDificil)):
+            obstaculos = self.gerenciador_imagens.criar_rect_obstaculo()
+            cabeca_cobra_rect = pygame.Rect(self.cobra.x_cobra, self.cobra.y_cobra, 20, 20)  # Retângulo da cabeça da cobra
+            
+            for obstaculo in obstaculos:
+                # Reduz o tamanho do rect do obstáculo para a verificação de colisão
+                obstaculo_ajustado = obstaculo.inflate(-25, -25)  # Reduz o rect em 30 pixels de largura e altura
+                
+                if cabeca_cobra_rect.colliderect(obstaculo_ajustado):
+                    self.morreu = True
+                    break
+
 
     def desenhar_elementos(self):
         self.gerenciador_imagens.desenhar_fundo(self.tela)
