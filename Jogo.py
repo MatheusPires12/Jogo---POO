@@ -91,10 +91,7 @@ class Jogo:
             cabeca_cobra_rect = pygame.Rect(self.cobra.x_cobra, self.cobra.y_cobra, 20, 20)  # Retângulo da cabeça da cobra
             
             for obstaculo in obstaculos:
-                # Reduz o tamanho do rect do obstáculo para a verificação de colisão
-                obstaculo_ajustado = obstaculo.inflate(-25, -25)  # Reduz o rect em 30 pixels de largura e altura
-                
-                if cabeca_cobra_rect.colliderect(obstaculo_ajustado):
+                if cabeca_cobra_rect.colliderect(obstaculo):
                     self.morreu = True
                     break
 
