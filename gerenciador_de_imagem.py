@@ -44,8 +44,8 @@ class NivelMedio(GerenciadorDeImagens):
 
     def criar_rect_obstaculo(self):
         return [
-            pygame.Rect(279, 99.79, 100, 100),
-            pygame.Rect(279, 289.4, 100, 100)
+            pygame.Rect(279, 99.79, 114, 115),
+            pygame.Rect(279, 289.4, 114, 115)
         ]
 
     def desenhar_obstaculos(self, tela):
@@ -61,10 +61,10 @@ class NivelDificil(GerenciadorDeImagens):
 
     def criar_rect_obstaculo(self):
         return [
-            pygame.Rect(87, 63, 100, 100),
-            pygame.Rect(454, 63, 100, 100),
-            pygame.Rect(87, 309, 100, 100),
-            pygame.Rect(454, 309, 100, 100)
+            pygame.Rect(87, 63, 114, 115),
+            pygame.Rect(454, 63, 114, 115),
+            pygame.Rect(87, 309, 114, 115),
+            pygame.Rect(454, 309, 114, 115)
         ]
 
     def desenhar_obstaculos(self, tela):
