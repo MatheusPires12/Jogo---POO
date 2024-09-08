@@ -1,8 +1,9 @@
 import pygame
 from pygame.locals import *
 from sys import exit
+from random import randint
 from cobra import Cobra
-from comida import Comida
+from comida import Comida, ComidaNormal, ComidaDourada, ComidaPrata, ComidaPodre
 from gerenciador_de_imagem import NivelFacil, NivelMedio, NivelDificil, GerenciadorDeImagens
 from gerenciador_de_som import GerenciadorDeSom
 
@@ -28,8 +29,19 @@ class Jogo:
         if isinstance(self.gerenciador_imagens, (NivelMedio, NivelDificil)):
             lista_obstaculos = self.gerenciador_imagens.criar_rect_obstaculo()
         
-        self.comida = Comida(self.largura, self.altura, self.gerenciador_imagens)
+        self.comida = self.criar_comida()
         self.comida.reposicionar(self.cobra.lista_cobra, lista_obstaculos)
+        
+    def criar_comida(self):
+        opcao = randint(1, 6)  
+        if opcao == 1:
+            return ComidaDourada(self.largura, self.altura, self.gerenciador_imagens)
+        elif opcao == 2:
+            return ComidaPrata(self.largura, self.altura, self.gerenciador_imagens)
+        elif opcao == 3:
+            return ComidaPodre(self.largura, self.altura, self.gerenciador_imagens)
+        else:
+            return ComidaNormal(self.largura, self.altura, self.gerenciador_imagens)
 
     def executar(self):
         while True:
@@ -74,6 +86,7 @@ class Jogo:
             if isinstance(self.gerenciador_imagens, (NivelMedio, NivelDificil)):
                 lista_obstaculos = self.gerenciador_imagens.criar_rect_obstaculo()
             
+            self.comida = self.criar_comida()
             self.comida.reposicionar(self.cobra.lista_cobra, lista_obstaculos)
             self.cobra.comprimento_inicial += 2
             self.pontos += 1

@@ -5,6 +5,9 @@ class GerenciadorDeImagens:
     def __init__(self):
         self.fundo = pygame.image.load("Imagens/fundo.png")
         self.comida = pygame.image.load("Imagens/Comida.png")
+        self.comida_dourada = pygame.image.load("Imagens/comida_dourada.png")
+        self.comida_prata = pygame.image.load("Imagens/comida_prata.png")
+        self.comida_podre = pygame.image.load("Imagens/comida_podre.png")
         self.cabeca = pygame.image.load("Imagens/Cabeça.png")
         self.corpo = pygame.image.load("Imagens/corpo.png")
         self.rabo = pygame.image.load("Imagens/Rabo.png")
@@ -29,6 +32,7 @@ class GerenciadorDeImagens:
         tela.blit(self.tela_fim, (0, 0))
         tela.blit(self.sair, (370, 350))
         tela.blit(self.reiniciar, (58, 350)) 
+
 
 class NivelFacil(GerenciadorDeImagens):
     def __init__(self):
