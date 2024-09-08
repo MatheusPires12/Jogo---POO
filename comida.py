@@ -7,11 +7,12 @@ class Comida:
         self.y_comida = randint(50, altura - 50)
         self.gerenciador_imagens = gerenciador_imagens
 
-    def reposicionar(self, largura, altura, lista_cobra):
+    def reposicionar(self, largura, altura, lista_cobra, lista_obstaculos=[]):
         while True:
             nova_posicao = (randint(20, largura - 40), randint(20, altura - 40))
             nova_comida_rect = pygame.Rect(nova_posicao[0], nova_posicao[1], 35, 35)
             
+            # Verifica colisão com a cobra
             colisao = False
             for segmento in lista_cobra:
                 segmento_rect = pygame.Rect(segmento[0], segmento[1], 35, 35)
@@ -19,6 +20,13 @@ class Comida:
                     colisao = True
                     break
             
+            # Verifica colisão com obstáculos
+            for obstaculo in lista_obstaculos:
+                if nova_comida_rect.colliderect(obstaculo):
+                    colisao = True
+                    break
+            
+            # Se não houver colisão, posiciona a comida
             if not colisao:
                 self.x_comida, self.y_comida = nova_posicao
                 return
@@ -28,4 +36,3 @@ class Comida:
 
     def desenhar(self, tela):
         tela.blit(self.gerenciador_imagens.comida, (self.x_comida, self.y_comida))
-

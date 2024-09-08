@@ -63,7 +63,11 @@ class Jogo:
     def atualizar_jogo(self):
         self.cobra.mover()
         if self.cobra.checar_colisao(self.comida):
-            self.comida.reposicionar(self.largura, self.altura, self.cobra.lista_cobra) 
+            lista_obstaculos = []
+            if isinstance(self.gerenciador_imagens, (NivelMedio, NivelDificil)):
+                lista_obstaculos = self.gerenciador_imagens.criar_rect_obstaculo()
+            
+            self.comida.reposicionar(self.largura, self.altura, self.cobra.lista_cobra, lista_obstaculos)
             self.cobra.comprimento_inicial += 2
             self.pontos += 1
             self.sons.tocar_som_colisao()
@@ -113,7 +117,7 @@ class Jogo:
             self.game_over()
 
     def game_over(self):
-        gerenciador_imagens = NivelFacil()  # Pode ser qualquer um dos níveis, pois o fundo é o mesmo
+        gerenciador_imagens = GerenciadorDeImagens()  # Pode ser qualquer um dos níveis, pois o fundo é o mesmo
         gerenciador_imagens.desenhar_fim(tela)
         pygame.display.update()
 
@@ -142,9 +146,6 @@ class Jogo:
         self.morreu = False
         self.sons.parar_game_over()
         self.sons.tocar_musica()
-
-
-
 def mostrar_tela_selecao_nivel(tela):
     gerenciador_imagens = NivelFacil()  # Pode ser qualquer um dos níveis, pois o fundo é o mesmo
     gerenciador_imagens.desenhar_inicial(tela)
