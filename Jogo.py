@@ -20,9 +20,16 @@ class Jogo:
 
         self.gerenciador_imagens = nivel
         self.cobra = Cobra(self.largura, self.altura, self.gerenciador_imagens.cabeca, self.gerenciador_imagens.corpo, self.gerenciador_imagens.rabo)
-        self.comida = Comida(self.largura, self.altura, self.gerenciador_imagens)
         self.sons = GerenciadorDeSom()
         self.velocidade_incremento = 1
+
+        # Inicializa a comida e a posiciona corretamente
+        lista_obstaculos = []
+        if isinstance(self.gerenciador_imagens, (NivelMedio, NivelDificil)):
+            lista_obstaculos = self.gerenciador_imagens.criar_rect_obstaculo()
+        
+        self.comida = Comida(self.largura, self.altura, self.gerenciador_imagens)
+        self.comida.reposicionar(self.cobra.lista_cobra, lista_obstaculos)
 
     def executar(self):
         while True:
@@ -67,7 +74,7 @@ class Jogo:
             if isinstance(self.gerenciador_imagens, (NivelMedio, NivelDificil)):
                 lista_obstaculos = self.gerenciador_imagens.criar_rect_obstaculo()
             
-            self.comida.reposicionar(self.largura, self.altura, self.cobra.lista_cobra, lista_obstaculos)
+            self.comida.reposicionar(self.cobra.lista_cobra, lista_obstaculos)
             self.cobra.comprimento_inicial += 2
             self.pontos += 1
             self.sons.tocar_som_colisao()
@@ -99,7 +106,6 @@ class Jogo:
                     self.morreu = True
                     break
 
-
     def desenhar_elementos(self):
         self.gerenciador_imagens.desenhar_fundo(self.tela)
         mensagem = f'Pontuação: {self.pontos}'
@@ -118,7 +124,7 @@ class Jogo:
 
     def game_over(self):
         gerenciador_imagens = GerenciadorDeImagens()  # Pode ser qualquer um dos níveis, pois o fundo é o mesmo
-        gerenciador_imagens.desenhar_fim(tela)
+        gerenciador_imagens.desenhar_fim(self.tela)
         pygame.display.update()
 
         self.sons.parar_musica()
@@ -137,15 +143,23 @@ class Jogo:
                     elif 370 <= x <= 370 + gerenciador_imagens.sair.get_width() and 350 <= y <= 350 + gerenciador_imagens.sair.get_height():
                         return exit()
                     
-                    
     def reiniciar_jogo(self):
         self.gerenciador_imagens = mostrar_tela_selecao_nivel(self.tela) 
         self.pontos = 0
         self.cobra.reiniciar(self.largura, self.altura, self.gerenciador_imagens.cabeca, self.gerenciador_imagens.corpo, self.gerenciador_imagens.rabo)
-        self.comida = Comida(self.largura, self.altura, self.gerenciador_imagens)  # Recria a comida para o novo nível
+        
+        # Garante que a comida é reposicionada corretamente com os obstáculos
+        lista_obstaculos = []
+        if isinstance(self.gerenciador_imagens, (NivelMedio, NivelDificil)):
+            lista_obstaculos = self.gerenciador_imagens.criar_rect_obstaculo()
+        
+        self.comida = Comida(self.largura, self.altura, self.gerenciador_imagens)
+        self.comida.reposicionar(self.cobra.lista_cobra, lista_obstaculos)
+        
         self.morreu = False
         self.sons.parar_game_over()
         self.sons.tocar_musica()
+
 def mostrar_tela_selecao_nivel(tela):
     gerenciador_imagens = NivelFacil()  # Pode ser qualquer um dos níveis, pois o fundo é o mesmo
     gerenciador_imagens.desenhar_inicial(tela)
@@ -167,7 +181,6 @@ def mostrar_tela_selecao_nivel(tela):
                 # Verifica se o clique foi na imagem de difícil
                 elif 424.44 <= x <= 424.44 + gerenciador_imagens.dificil.get_width() and 373 <= y <= 373 + gerenciador_imagens.dificil.get_height():
                     return NivelDificil()
-
 
 if __name__ == "__main__":
     pygame.init()

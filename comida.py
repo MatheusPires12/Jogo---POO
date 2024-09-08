@@ -3,13 +3,21 @@ from random import randint
 
 class Comida:
     def __init__(self, largura, altura, gerenciador_imagens):
-        self.x_comida = randint(40, largura - 40)
-        self.y_comida = randint(50, altura - 50)
+        self.largura = largura
+        self.altura = altura
         self.gerenciador_imagens = gerenciador_imagens
+        self.x_comida = 0
+        self.y_comida = 0
+        self.reposicionar()  # Inicializa a posição da comida
 
-    def reposicionar(self, largura, altura, lista_cobra, lista_obstaculos=[]):
+    def reposicionar(self, lista_cobra=None, lista_obstaculos=None):
+        if lista_cobra is None:
+            lista_cobra = []
+        if lista_obstaculos is None:
+            lista_obstaculos = []
+
         while True:
-            nova_posicao = (randint(20, largura - 40), randint(20, altura - 40))
+            nova_posicao = (randint(20, self.largura - 40), randint(20, self.altura - 40))
             nova_comida_rect = pygame.Rect(nova_posicao[0], nova_posicao[1], 35, 35)
             
             # Verifica colisão com a cobra
