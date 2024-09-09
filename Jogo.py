@@ -37,9 +37,12 @@ class Jogo:
         self.comida = self.criar_comida()
         self.comida.reposicionar(self.cobra.lista_cobra, lista_obstaculos)
 
+        self.tempo_restante_ignorar_obstaculos = 0
+        self.tempo_restante_controles_invertidos = 0
+
         
     def criar_comida(self):
-        opcao = randint(1, 1)  
+        opcao = randint(1, 9)  
         if opcao == 1:
             return ComidaDourada(self.largura, self.altura, self.gerenciador_imagens)
         elif opcao == 2:
@@ -139,11 +142,19 @@ class Jogo:
             self.checar_posicoes()
         
         # Reseta o estado de ignorar obstáculos após 10 segundos
-        if self.ignorar_obstaculos and time.time() - self.tempo_ignorar_obstaculos >= 10:
-            self.ignorar_obstaculos = False
+        if self.ignorar_obstaculos:
+            tempo_decorrido = time.time() - self.tempo_ignorar_obstaculos
+            self.tempo_restante_ignorar_obstaculos = max(10 - tempo_decorrido, 0)
+            if tempo_decorrido >= 10:
+                self.ignorar_obstaculos = False
+                self.tempo_restante_ignorar_obstaculos = 0
         
-        if self.controles_invertidos and time.time() - self.tempo_inverter_controles >= 5:
-            self.controles_invertidos = False
+        if self.controles_invertidos:
+            tempo_decorrido = time.time() - self.tempo_inverter_controles
+            self.tempo_restante_controles_invertidos = max(5 - tempo_decorrido, 0)
+            if tempo_decorrido >= 5:
+                self.controles_invertidos = False
+                self.tempo_restante_controles_invertidos = 0
             
     def checar_laterais(self):
         if self.cobra.x_cobra > largura:
@@ -190,7 +201,17 @@ class Jogo:
         # Desenha os obstáculos, se existirem no nível
         if isinstance(self.gerenciador_imagens, NivelMedio) or isinstance(self.gerenciador_imagens, NivelDificil):
             self.gerenciador_imagens.desenhar_obstaculos(self.tela)
-            
+
+        if self.ignorar_obstaculos:
+            tempo_ignorar = f'Ignorar Obstáculos: {int(self.tempo_restante_ignorar_obstaculos)}s'
+            texto_ignorar = self.fonte.render(tempo_ignorar, True, (255, 255, 255))
+            self.tela.blit(texto_ignorar, (20, 1))
+    
+        if self.controles_invertidos:
+            tempo_controles = f'Controles Invertidos: {int(self.tempo_restante_controles_invertidos)}s'
+            texto_controles = self.fonte.render(tempo_controles, True, (255, 255, 255))
+            self.tela.blit(texto_controles, (250, 1))
+
         if self.morreu:
             self.game_over()
 
