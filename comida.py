@@ -1,11 +1,11 @@
 import pygame
 from random import randint
-import time  # Adicione isso para usar time.time()
+import time 
 
 class Comida:
     def __init__(self, largura, altura, gerenciador_imagens):
         self.largura = largura
-        self.altura = altura
+        self.altura = altura 
         self.gerenciador_imagens = gerenciador_imagens
         self.x_comida = 0
         self.y_comida = 0
@@ -66,6 +66,9 @@ class ComidaPrata(Comida):
     
     def desenhar(self, tela):
         tela.blit(self.gerenciador_imagens.comida_prata, (self.x_comida, self.y_comida))
+    
+    def poder_prata(self, pontos):
+            return pontos +2
 
 class ComidaPodre(Comida):
     def __init__(self, largura, altura, gerenciador_imagens):
@@ -74,3 +77,9 @@ class ComidaPodre(Comida):
     
     def desenhar(self, tela):
         tela.blit(self.gerenciador_imagens.comida_podre, (self.x_comida, self.y_comida))
+    
+    def poder_podre(self, jogo):
+        jogo.controles_invertidos = True
+        jogo.tempo_inverter_controles = time.time()
+        
+

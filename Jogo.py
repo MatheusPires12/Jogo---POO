@@ -6,6 +6,7 @@ from cobra import Cobra
 from comida import Comida, ComidaNormal, ComidaDourada, ComidaPrata, ComidaPodre
 from gerenciador_de_imagem import NivelFacil, NivelMedio, NivelDificil, GerenciadorDeImagens
 from gerenciador_de_som import GerenciadorDeSom
+import time
 
 class Jogo:
     def __init__(self, nivel):
@@ -24,7 +25,9 @@ class Jogo:
         self.sons = GerenciadorDeSom()
         self.velocidade_incremento = 1
 
-        # Inicializa a comida e a posiciona corretamente
+        self.controles_invertidos = False  # Flag para os controles invertidos
+        self.tempo_inverter_controles = 0  # Variável para controlar o tempo de duração do efeito
+
         lista_obstaculos = []
         if isinstance(self.gerenciador_imagens, (NivelMedio, NivelDificil)):
             lista_obstaculos = self.gerenciador_imagens.criar_rect_obstaculo()
@@ -60,24 +63,42 @@ class Jogo:
                 self.lidar_com_tecla_pressionada(evento)
 
     def lidar_com_tecla_pressionada(self, evento):
-        if evento.key == K_LEFT:
-            if self.cobra.x_controle != self.cobra.velocidade:
-                self.cobra.x_controle = -self.cobra.velocidade
-                self.cobra.y_controle = 0
-        if evento.key == K_RIGHT:
-            if self.cobra.x_controle != -self.cobra.velocidade:
-                self.cobra.x_controle = self.cobra.velocidade
-                self.cobra.y_controle = 0
-        if evento.key == K_UP:
-            if self.cobra.y_controle != self.cobra.velocidade:
-                self.cobra.x_controle = 0
-                self.cobra.y_controle = -self.cobra.velocidade
-        if evento.key == K_DOWN:
-            if self.cobra.y_controle != -self.cobra.velocidade:
-                self.cobra.x_controle = 0
-                self.cobra.y_controle = self.cobra.velocidade
-        if evento.key == K_SPACE and self.morreu:
-            self.reiniciar_jogo()
+        if self.controles_invertidos:
+            # Inverte as teclas enquanto o poder está ativo
+            if evento.key == K_LEFT:
+                if self.cobra.x_controle != -self.cobra.velocidade:
+                    self.cobra.x_controle = self.cobra.velocidade
+                    self.cobra.y_controle = 0
+            if evento.key == K_RIGHT:
+                if self.cobra.x_controle != self.cobra.velocidade:
+                    self.cobra.x_controle = -self.cobra.velocidade
+                    self.cobra.y_controle = 0
+            if evento.key == K_UP:
+                if self.cobra.y_controle != -self.cobra.velocidade:
+                    self.cobra.x_controle = 0
+                    self.cobra.y_controle = self.cobra.velocidade
+            if evento.key == K_DOWN:
+                if self.cobra.y_controle != self.cobra.velocidade:
+                    self.cobra.x_controle = 0
+                    self.cobra.y_controle = -self.cobra.velocidade
+        else:
+            # Controles normais
+            if evento.key == K_LEFT:
+                if self.cobra.x_controle != self.cobra.velocidade:
+                    self.cobra.x_controle = -self.cobra.velocidade
+                    self.cobra.y_controle = 0
+            if evento.key == K_RIGHT:
+                if self.cobra.x_controle != -self.cobra.velocidade:
+                    self.cobra.x_controle = self.cobra.velocidade
+                    self.cobra.y_controle = 0
+            if evento.key == K_UP:
+                if self.cobra.y_controle != self.cobra.velocidade:
+                    self.cobra.x_controle = 0
+                    self.cobra.y_controle = -self.cobra.velocidade
+            if evento.key == K_DOWN:
+                if self.cobra.y_controle != -self.cobra.velocidade:
+                    self.cobra.x_controle = 0
+                    self.cobra.y_controle = self.cobra.velocidade
 
     def atualizar_jogo(self):
         self.cobra.mover()
@@ -85,16 +106,27 @@ class Jogo:
             lista_obstaculos = []
             if isinstance(self.gerenciador_imagens, (NivelMedio, NivelDificil)):
                 lista_obstaculos = self.gerenciador_imagens.criar_rect_obstaculo()
-            
+            if isinstance(self.comida, ComidaPrata):
+                self.pontos = self.comida.poder_prata(self.pontos)
+            if isinstance(self.comida, ComidaPodre):
+                self.comida.poder_podre(self)
+
+            # Reposiciona a comida e aumenta o tamanho da cobra
             self.comida = self.criar_comida()
             self.comida.reposicionar(self.cobra.lista_cobra, lista_obstaculos)
             self.cobra.comprimento_inicial += 2
-            self.pontos += 1
+            self.pontos += 1  # Incrementa pontos após consumir qualquer comida
             self.sons.tocar_som_colisao()
+            
+            # Aumenta a velocidade a cada 10 pontos
             if self.pontos % 10 == 0:
                 self.cobra.aumentar_velocidade(self.velocidade_incremento)
+
         self.cobra.atualizar()
         self.checar_posicoes()
+        
+        if self.controles_invertidos and time.time() - self.tempo_inverter_controles >= 5:
+            self.controles_invertidos = False
 
     def checar_posicoes(self):
         # Verificação de colisão com as bordas da tela
@@ -172,6 +204,10 @@ class Jogo:
         self.morreu = False
         self.sons.parar_game_over()
         self.sons.tocar_musica()
+
+        # Desativa o poder após 8 segundos
+        if self.controles_invertidos and time.time() - self.tempo_inverter_controles >= 5:
+            self.controles_invertidos = False
 
 def mostrar_tela_selecao_nivel(tela):
     gerenciador_imagens = NivelFacil()  # Pode ser qualquer um dos níveis, pois o fundo é o mesmo
