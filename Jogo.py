@@ -39,7 +39,7 @@ class Jogo:
 
         
     def criar_comida(self):
-        opcao = randint(1, 6)  
+        opcao = randint(1, 10)  
         if opcao == 1:
             return ComidaDourada(self.largura, self.altura, self.gerenciador_imagens)
         elif opcao == 2:
@@ -134,13 +134,27 @@ class Jogo:
         self.cobra.atualizar()
 
         # Checa posições apenas se não estivermos ignorando obstáculos
-        if not self.ignorar_obstaculos:
+        if self.ignorar_obstaculos:
+            self.checar_laterais()
+        else:
             self.checar_posicoes()
         
         # Reseta o estado de ignorar obstáculos após 10 segundos
         if self.ignorar_obstaculos and time.time() - self.tempo_ignorar_obstaculos >= 10:
             self.ignorar_obstaculos = False
-
+        
+        if self.controles_invertidos and time.time() - self.tempo_inverter_controles >= 5:
+            self.controles_invertidos = False
+            
+    def checar_laterais(self):
+        if self.cobra.x_cobra > largura:
+            self.cobra.x_cobra = 0
+        if self.cobra.x_cobra < 0:
+            self.cobra.x_cobra = largura
+        if self.cobra.y_cobra < 0:
+            self.cobra.y_cobra = altura
+        if self.cobra.y_cobra > altura:
+            self.cobra.y_cobra = 0
 
     def checar_posicoes(self):
         # Verificação de colisão com as bordas da tela
@@ -218,10 +232,10 @@ class Jogo:
         self.morreu = False
         self.sons.parar_game_over()
         self.sons.tocar_musica()
-
-        # Desativa o poder após 8 segundos
-        if self.controles_invertidos and time.time() - self.tempo_inverter_controles >= 5:
-            self.controles_invertidos = False
+        self.ignorar_obstaculos = False
+        self.tempo_ignorar_obstaculos = 0
+        self.tempo_inverter_controles = 0
+        self.controles_invertidos = False
 
 def mostrar_tela_selecao_nivel(tela):
     gerenciador_imagens = NivelFacil()  # Pode ser qualquer um dos níveis, pois o fundo é o mesmo
