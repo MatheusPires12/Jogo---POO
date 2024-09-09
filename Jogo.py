@@ -39,7 +39,7 @@ class Jogo:
 
         
     def criar_comida(self):
-        opcao = randint(1, 10)  
+        opcao = randint(1, 1)  
         if opcao == 1:
             return ComidaDourada(self.largura, self.altura, self.gerenciador_imagens)
         elif opcao == 2:
@@ -117,8 +117,7 @@ class Jogo:
                 self.comida.poder_podre(self)
 
             if isinstance(self.comida, ComidaDourada):
-                self.ignorar_obstaculos = True
-                self.tempo_ignorar_obstaculos = time.time()
+                self.comida.poder_dourada(self)
 
             # Reposiciona a comida e aumenta o tamanho da cobra
             self.comida = self.criar_comida()

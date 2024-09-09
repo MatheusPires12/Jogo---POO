@@ -53,6 +53,10 @@ class ComidaDourada(Comida):
     
     def desenhar(self, tela):
         tela.blit(self.gerenciador_imagens.comida_dourada, (self.x_comida, self.y_comida))
+        
+    def poder_dourada(self, jogo):
+        jogo.ignorar_obstaculos = True
+        jogo.tempo_ignorar_obstaculos = time.time()
 
 class ComidaPrata(Comida):
     def __init__(self, largura, altura, gerenciador_imagens):
