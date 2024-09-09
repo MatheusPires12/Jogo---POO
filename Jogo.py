@@ -3,7 +3,7 @@ from pygame.locals import *
 from sys import exit
 from random import randint
 from cobra import Cobra
-from comida import Comida, ComidaNormal, ComidaDourada, ComidaPrata, ComidaPodre
+from comida import Comida, ComidaDourada, ComidaPrata, ComidaPodre
 from gerenciador_de_imagem import NivelFacil, NivelMedio, NivelDificil, GerenciadorDeImagens
 from gerenciador_de_som import GerenciadorDeSom
 import time
@@ -44,7 +44,7 @@ class Jogo:
         elif opcao == 3:
             return ComidaPodre(self.largura, self.altura, self.gerenciador_imagens)
         else:
-            return ComidaNormal(self.largura, self.altura, self.gerenciador_imagens)
+            return Comida(self.largura, self.altura, self.gerenciador_imagens)
 
     def executar(self):
         while True:

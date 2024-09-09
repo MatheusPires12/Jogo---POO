@@ -42,15 +42,10 @@ class Comida:
 
     def get_rect(self):
         return pygame.Rect(self.x_comida, self.y_comida, 35, 35)  
-      
-class ComidaNormal(Comida):
-    def __init__(self, largura, altura, gerenciador_imagens):
-        super().__init__(largura, altura, gerenciador_imagens)
-        self.tipo = "normal"
-        
+    
     def desenhar(self, tela):
         tela.blit(self.gerenciador_imagens.comida, (self.x_comida, self.y_comida))  
-        
+              
 class ComidaDourada(Comida):
     def __init__(self, largura, altura, gerenciador_imagens):
         super().__init__(largura, altura, gerenciador_imagens)
