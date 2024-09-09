@@ -27,6 +27,8 @@ class Jogo:
 
         self.controles_invertidos = False  # Flag para os controles invertidos
         self.tempo_inverter_controles = 0  # Variável para controlar o tempo de duração do efeito
+        
+        self.ignorar_obstaculos = False  # Variável para ignorar obstáculos
 
         lista_obstaculos = []
         if isinstance(self.gerenciador_imagens, (NivelMedio, NivelDificil)):
@@ -34,6 +36,7 @@ class Jogo:
         
         self.comida = self.criar_comida()
         self.comida.reposicionar(self.cobra.lista_cobra, lista_obstaculos)
+
         
     def criar_comida(self):
         opcao = randint(1, 6)  
@@ -106,10 +109,16 @@ class Jogo:
             lista_obstaculos = []
             if isinstance(self.gerenciador_imagens, (NivelMedio, NivelDificil)):
                 lista_obstaculos = self.gerenciador_imagens.criar_rect_obstaculo()
+            
             if isinstance(self.comida, ComidaPrata):
                 self.pontos = self.comida.poder_prata(self.pontos)
+            
             if isinstance(self.comida, ComidaPodre):
                 self.comida.poder_podre(self)
+
+            if isinstance(self.comida, ComidaDourada):
+                self.ignorar_obstaculos = True
+                self.tempo_ignorar_obstaculos = time.time()
 
             # Reposiciona a comida e aumenta o tamanho da cobra
             self.comida = self.criar_comida()
@@ -123,10 +132,15 @@ class Jogo:
                 self.cobra.aumentar_velocidade(self.velocidade_incremento)
 
         self.cobra.atualizar()
-        self.checar_posicoes()
+
+        # Checa posições apenas se não estivermos ignorando obstáculos
+        if not self.ignorar_obstaculos:
+            self.checar_posicoes()
         
-        if self.controles_invertidos and time.time() - self.tempo_inverter_controles >= 5:
-            self.controles_invertidos = False
+        # Reseta o estado de ignorar obstáculos após 10 segundos
+        if self.ignorar_obstaculos and time.time() - self.tempo_ignorar_obstaculos >= 10:
+            self.ignorar_obstaculos = False
+
 
     def checar_posicoes(self):
         # Verificação de colisão com as bordas da tela
