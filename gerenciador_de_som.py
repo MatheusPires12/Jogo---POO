@@ -1,6 +1,6 @@
 import pygame
 import os
-
+ 
 class GerenciadorDeSom:
     def __init__(self):
         pygame.mixer.music.set_volume(0.08)

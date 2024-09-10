@@ -1,6 +1,5 @@
 import pygame
 
-# Classe mãe que gerencia as imagens do jogo
 class GerenciadorDeImagens:
     def __init__(self):
         self.fundo = pygame.image.load("Imagens/fundo.png")
@@ -18,7 +17,7 @@ class GerenciadorDeImagens:
         self.tela_fim= pygame.image.load("Imagens/Fundo_Game_Over.png")
         self.sair= pygame.image.load("Imagens/EXIT.png")
         self.reiniciar= pygame.image.load("Imagens/Restart.png")
-
+ 
     def desenhar_inicial(self, tela):
         tela.blit(self.tela_inicial, (0, 0))
         tela.blit(self.facil, (37, 373))
@@ -33,18 +32,15 @@ class GerenciadorDeImagens:
         tela.blit(self.sair, (370, 350))
         tela.blit(self.reiniciar, (58, 350)) 
 
-
 class NivelFacil(GerenciadorDeImagens):
     def __init__(self):
         super().__init__()  
-        #self.velocidade = 5  # Exemplo de atributo específico
 
 
 class NivelMedio(GerenciadorDeImagens):
     def __init__(self):
         super().__init__()
         self.obstaculo = pygame.image.load("Imagens/OBSTACULO.png")
-        #self.velocidade = 10  # Exemplo de atributo específico
 
     def criar_rect_obstaculo(self):
         return [
@@ -61,7 +57,6 @@ class NivelDificil(GerenciadorDeImagens):
     def __init__(self):
         super().__init__()
         self.obstaculo = pygame.image.load("Imagens/OBSTACULO.png")
-        #self.velocidade = 10  # Exemplo de atributo específico
 
     def criar_rect_obstaculo(self):
         return [

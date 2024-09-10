@@ -1,7 +1,6 @@
 import pygame
 
 class Cobra:
-
     def __init__(self, largura, altura, imagem_cabeca, imagem_corpo, imagem_rabo):
         self.x_cobra = int(largura / 2)
         self.y_cobra = int(altura / 2)
