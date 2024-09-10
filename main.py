@@ -1,9 +1,11 @@
-'''from jogo import Jogo
-from gerenciador_de_imagem import NivelFacil  
-from gerenciador_de_imagem import NivelMedio
-from gerenciador_de_imagem import NivelDificil
+import pygame
+from jogo import Jogo, mostrar_tela_selecao_nivel
 
 if __name__ == "__main__":
-    nivel_desejado = NivelFacil()
-    jogo = Jogo()
-    jogo.executar()'''
+    pygame.init()
+    largura = 640
+    altura = 480
+    tela = pygame.display.set_mode((largura, altura))
+    nivel_selecionado = mostrar_tela_selecao_nivel(tela)
+    jogo = Jogo(nivel_selecionado)
+    jogo.executar()

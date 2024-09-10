@@ -159,13 +159,13 @@ class Jogo:
                 self.tempo_restante_controles_invertidos = 0
             
     def checar_laterais(self):
-        if self.cobra.x_cobra > largura:
+        if self.cobra.x_cobra > self.largura:
             self.cobra.x_cobra = 0
         if self.cobra.x_cobra < 0:
-            self.cobra.x_cobra = largura
+            self.cobra.x_cobra = self.largura
         if self.cobra.y_cobra < 0:
-            self.cobra.y_cobra = altura
-        if self.cobra.y_cobra > altura:
+            self.cobra.y_cobra = self.altura
+        if self.cobra.y_cobra > self.altura:
             self.cobra.y_cobra = 0
 
     def checar_posicoes(self):
@@ -259,12 +259,3 @@ def mostrar_tela_selecao_nivel(tela):
                     return NivelMedio()
                 elif 424.44 <= x <= 424.44 + gerenciador_imagens.dificil.get_width() and 373 <= y <= 373 + gerenciador_imagens.dificil.get_height():
                     return NivelDificil()
-
-if __name__ == "__main__":
-    pygame.init()
-    largura = 640
-    altura = 480
-    tela = pygame.display.set_mode((largura, altura))
-    nivel_selecionado = mostrar_tela_selecao_nivel(tela)
-    jogo = Jogo(nivel_selecionado)
-    jogo.executar()
